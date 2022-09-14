@@ -1,0 +1,7 @@
+click
+joblib
+keras
+numpy
+pandas
+sklearn
+tensorflow-cpu

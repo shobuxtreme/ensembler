@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: factorizer-dep
+  labels:
+    app: factorizer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: factorizer
+  template:
+    metadata:
+      labels:
+        app: factorizer
+    spec:
+      containers:
+      - name: factorizer
+        # Customize
+        # image: shobuxtreme/ensembler.factorizer:b0c
+        # image: shobuxtreme/ensembler.factorizer:b1c
+        # image: shobuxtreme/ensembler.factorizer:b2c
+        # image: shobuxtreme/ensembler.factorizer:b4d
+        # image: shobuxtreme/ensembler.factorizer:b8c
+        # image: shobuxtreme/ensembler.factorizer:b16c
+        # image: shobuxtreme/ensembler.factorizer:b32c
+        # image: shobuxtreme/ensembler.factorizer:b64c
+        # image: shobuxtreme/ensembler.factorizer:b128c
+        # image: shobuxtreme/ensembler.factorizer:b256c
+        # image: shobuxtreme/ensembler.factorizer:b512c
+        image: shobuxtreme/ensembler.factorizer:b0c
+        ports:
+        - containerPort: 9001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: factorizer-svc
+spec:
+  selector:
+    app: factorizer
+  ports:
+    - protocol: TCP
+      port: 9001
+      targetPort: 9001

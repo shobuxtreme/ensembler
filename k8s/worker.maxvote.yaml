@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-maxvote-dep
+  labels:
+    app: worker-maxvote
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: worker-maxvote
+  template:
+    metadata:
+      labels:
+        app: worker-maxvote
+    spec:
+      containers:
+      - name: worker-maxvote
+        image: shobuxtreme/ensembler.worker:maxvote-l
+        ports:
+        - containerPort: 9000
+        env:
+        - name: SERVER_PORT
+          value: "9000"
+        - name: MODEL_NAME
+          value: "MaxVote"  
+        - name: RABBIT_HOST
+          value: "rabbitmq-svc"    
+        - name: ENSEMBLER_DATASVC_URL
+          value: "datasvc-svc:9002"      
+        args: ["--server.port=$(SERVER_PORT)",
+          "--worker.model.name=$(MODEL_NAME)", 
+          "--spring.rabbitmq.host=$(RABBIT_HOST)", 
+          "--ensembler.datasvc.url=$(ENSEMBLER_DATASVC_URL)/"]

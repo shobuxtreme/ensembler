@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gui-dep
+  labels:
+    app: gui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gui
+  template:
+    metadata:
+      labels:
+        app: gui
+    spec:
+      containers:
+      - name: gui
+        image: shobuxtreme/ensembler.gui
+        ports:
+        - name: react
+          containerPort: 3000
+        env:
+        - name: API_EXECUTOR
+          value: "http://34.65.140.150:9000"
+        - name: API_DATA
+          value: "http://34.65.140.150:9002"
+          
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gui-svc
+spec:
+  type: LoadBalancer
+  loadBalancerIP: "34.65.140.150"
+  selector:
+    app: gui
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30030

@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: datasvc-dep
+  labels:
+    app: datasvc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: datasvc
+  template:
+    metadata:
+      labels:
+        app: datasvc
+    spec:
+      containers:
+      - name: datasvc
+        image: shobuxtreme/ensembler.datasvc:l2
+        ports:
+        - containerPort: 9002
+        env:
+        - name: MONGO_HOST
+          value: "mongo-svc"
+        - name: MONGO_USER
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret
+              key: mongo-user
+        - name: MONGO_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret
+              key: mongo-password  
+        args: ["--spring.data.mongodb.host=$(MONGO_HOST)",
+          "--spring.data.mongodb.username=$(MONGO_USER)",
+          "--spring.data.mongodb.password=$(MONGO_PASSWORD)"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: datasvc-svc
+spec:
+  type: LoadBalancer
+  loadBalancerIP: "34.65.140.150"
+  selector:
+    app: datasvc
+  ports:
+    - protocol: TCP
+      port: 9002
+      targetPort: 9002
+      nodePort: 30012

@@ -1,0 +1,4 @@
+shobuxtreme@Shobus-MacBook ~ % echo -n shobuxtreme | base64
+c2hvYnV4dHJlbWU=
+shobuxtreme@Shobus-MacBook ~ % echo -n shobuxtreme.Oz#wtSA69! | base64
+c2hvYnV4dHJlbWUuT3ojd3RTQTY5IQ==

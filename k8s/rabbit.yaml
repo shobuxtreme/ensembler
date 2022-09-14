@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-dep
+  labels:
+    app: rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+      - name: rabbitmq
+        image: rabbitmq:3-management
+        ports:
+        - name: svc
+          containerPort: 5672
+        - name: management
+          containerPort: 15672
+          
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-svc
+spec:
+  type: LoadBalancer
+  loadBalancerIP: "34.65.111.240"
+  selector:
+    app: rabbitmq
+  ports:
+    - protocol: TCP
+      port: 5672
+      targetPort: 5672
+      nodePort: 30000
+      name: svc
+    - protocol: TCP
+      port: 15672
+      targetPort: 15672
+      nodePort: 30001
+      name: management

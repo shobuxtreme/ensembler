@@ -1,0 +1,14 @@
+plugins {
+	id 'java'
+}
+
+group = 'com.shobuxtreme.thesis'
+version = '0.0.1'
+sourceCompatibility = '17'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+}

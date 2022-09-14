@@ -1,0 +1,15 @@
+{
+  "name": "js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "MaxVote.js",
+  "dependencies": {
+    "@tensorflow/tfjs-node": "^3.18.0",
+    "yargs": "^17.5.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

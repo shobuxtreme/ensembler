@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+}
+
+group 'com.shobuxtreme'
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "com.shobuxtreme.thesis.models.java.deepl.App"
+        attributes "Class-Path": "."
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+dependencies {
+    implementation 'commons-cli:commons-cli:1.5.0'
+    implementation 'org.deeplearning4j:deeplearning4j-core:1.0.0-M2'
+    implementation 'org.nd4j:nd4j-native-platform:1.0.0-M2'
+    implementation 'com.opencsv:opencsv:5.6'
+}

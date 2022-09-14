@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: factorizer-dep
+  labels:
+    app: factorizer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: factorizer
+  template:
+    metadata:
+      labels:
+        app: factorizer
+    spec:
+      containers:
+      - name: factorizer
+        image: shobuxtreme/ensembler.factorizer:strat
+        ports:
+        - containerPort: 9001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: factorizer-svc
+spec:
+  selector:
+    app: factorizer
+  ports:
+    - protocol: TCP
+      port: 9001
+      targetPort: 9001

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: executor-dep
+  labels:
+    app: executor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: executor
+  template:
+    metadata:
+      labels:
+        app: executor
+    spec:
+      containers:
+      - name: executor
+        image: shobuxtreme/ensembler.executor
+        ports:
+        - containerPort: 9000
+        env:
+        - name: RABBIT_HOST
+          value: "rabbitmq-svc"
+        args: ["--spring.rabbitmq.host=$(RABBIT_HOST)"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: executor-svc
+spec:
+  type: LoadBalancer
+  loadBalancerIP: "34.65.140.150"
+  selector:
+    app: executor
+  ports:
+    - protocol: TCP
+      port: 9000
+      targetPort: 9000
+      nodePort: 30010
